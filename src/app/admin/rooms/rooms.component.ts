@@ -35,7 +35,7 @@ export class RoomsComponent implements OnInit {
   } // End ngOnInit()
 
   setRoom(id: number) {
-    this.router.navigate(['admin', 'users'], {queryParams: {id: id}});
+    this.router.navigate(['admin', 'rooms'], {queryParams: {id: id}});
   }
 
 }
