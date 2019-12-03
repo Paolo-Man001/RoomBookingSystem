@@ -20,8 +20,13 @@ export class RoomsComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.rooms = this.dataService.rooms;
+    /*this.rooms = this.dataService.getRooms(); // REPLACE for a subscriber of the Observable */
+    /** subscribe to the Observable. 'next' is the data returned by Observable( Observable<Array<Room>> ) */
+    this.dataService.getRooms().subscribe(
+      (next)=>{
+        this.rooms = next;
+      }
+    );
 
     this.route.queryParams.subscribe(
       (params) => {

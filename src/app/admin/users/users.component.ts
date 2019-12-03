@@ -15,11 +15,17 @@ export class UsersComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit() {
-    // User from dataService
-    this.users = this.dataService.users;
+    /*this.users = this.dataService.getUsers(); // REPLACE with an Observer/subscriber */
+    /** subscribe to the Observable. 'next' is the data returned by Observable( Observable<Array<User>> ) */
+    this.dataService.getUsers().subscribe(
+      (next) => {
+        this.users = next;
+      }
+    );
 
     this.route.queryParams.subscribe(
       (params) => {
