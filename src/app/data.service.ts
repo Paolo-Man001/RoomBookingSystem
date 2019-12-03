@@ -1,14 +1,38 @@
 import {Injectable} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "./model/Room";
+import { User } from './model/User';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  rooms: Array<Room>;     // DUMMY Data
+  //------ DUMMY Data ::
+  rooms: Array<Room>;
+  users: Array<User>;
 
   constructor() {
+    /*----------- USER Array -------------*/
+    this.users = new Array<User>();
+
+    const user1 = new User();   // User 1
+    user1.id = 1;
+    user1.name = 'John Doe';
+
+    const user2 = new User();   // User 2
+    user2.id = 2;
+    user2.name = 'Mary Jane';
+
+    const user3 = new User();   // User 3
+    user3.id = 3;
+    user3.name = 'Nebula Blue';
+
+    this.users.push(user1);
+    this.users.push(user2);
+    this.users.push(user3);
+
+
+    /*----------- ROOM Array -------------*/
     this.rooms = new Array<Room>();
 
     /** ROOM 1 */
@@ -30,7 +54,6 @@ export class DataService {
     room1.capacities.push(capacity1);
     room1.capacities.push(capacity2);
 
-
     /** ROOM 2 */
     const room2 = new Room();
     room2.id=2;
@@ -43,7 +66,6 @@ export class DataService {
     capacity3.capacity = 60;
 
     room2.capacities.push(capacity3);
-
 
     /** PUSH to rooms */
     this.rooms.push(room1);
