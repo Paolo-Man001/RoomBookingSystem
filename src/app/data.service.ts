@@ -13,10 +13,12 @@ export class DataService {
   private users: Array<User>;
 
   getRooms(): Observable<Array<Room>> {
+    // method 'of()' converts data to return an Observable that contains the data. Always use together with Observable data type.
     return of(this.rooms);
   }
 
   getUsers(): Observable<Array<User>>{
+    // method 'of()' converts data to return an Observable that contains the data. Always use together with Observable data type.
     return of(this.users);
   }
 
