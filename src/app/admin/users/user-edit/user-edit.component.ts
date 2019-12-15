@@ -8,6 +8,8 @@ import {User} from "../../../model/User";
 })
 export class UserEditComponent implements OnInit {
 
+  message: string;
+
   /* @Input to bind variable to the HTML */
   @Input()
   user:User;
