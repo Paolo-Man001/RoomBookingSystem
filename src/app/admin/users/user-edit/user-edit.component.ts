@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {User} from "../../../model/User";
 
 @Component({
   selector: 'app-user-edit',
@@ -6,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-edit.component.css']
 })
 export class UserEditComponent implements OnInit {
+
+  /* @Input to bind variable to the HTML */
+  @Input()
+  user:User;
 
   constructor() { }
 

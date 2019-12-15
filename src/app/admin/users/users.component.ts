@@ -12,6 +12,7 @@ export class UsersComponent implements OnInit {
 
   users: Array<User>;
   selectedUser: User;
+  action: string;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -31,9 +32,11 @@ export class UsersComponent implements OnInit {
       (params) => {
 
         const id = params['id'];  // assign the 'id' number from params into our local 'const id'
+        const action = params['action'];
 
         if (id) {
           this.selectedUser = this.users.find(user => user.id === +id);
+          this.action = action;
         }
 
       }
@@ -41,7 +44,7 @@ export class UsersComponent implements OnInit {
   } // End ngOnInit()
 
   setUser(id: number) {
-    this.router.navigate(['admin', 'users'], {queryParams: {id: id}});
+    this.router.navigate(['admin', 'users'], {queryParams: {id, action: 'view'}});
   }
 
 }
