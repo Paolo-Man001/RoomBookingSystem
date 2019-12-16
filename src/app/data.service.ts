@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "./model/Room";
-import { User } from './model/User';
+import {User} from './model/User';
 import {Observable, of} from "rxjs";
 
 @Injectable({
@@ -17,9 +17,16 @@ export class DataService {
     return of(this.rooms);
   }
 
-  getUsers(): Observable<Array<User>>{
+  getUsers(): Observable<Array<User>> {
     // method 'of()' converts data to return an Observable that contains the data. Always use together with Observable data type.
     return of(this.users);
+  }
+
+  // Update a user
+  updateUser(user: User): Observable<User> {
+    const originalUser = this.users.find(u => u.id === user.id);
+    originalUser.name = user.name;
+    return of(originalUser);
   }
 
   constructor() {
@@ -48,7 +55,7 @@ export class DataService {
 
     /** ROOM 1 */
     const room1 = new Room();
-    room1.id=1;
+    room1.id = 1;
     room1.name = 'First Room';
     room1.location = 'First Floor';
 
@@ -67,7 +74,7 @@ export class DataService {
 
     /** ROOM 2 */
     const room2 = new Room();
-    room2.id=2;
+    room2.id = 2;
     room2.name = 'Second Room';
     room2.location = 'Second Floor';
 
