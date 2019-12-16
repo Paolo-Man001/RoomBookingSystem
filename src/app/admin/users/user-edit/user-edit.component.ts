@@ -14,8 +14,9 @@ export class UserEditComponent implements OnInit {
   @Input()
   user: User;
   formUser: User;
-  password: string;
   message: string;
+  password: string;
+  password2: string;
 
 
   constructor(private dataService: DataService,
