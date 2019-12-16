@@ -13,9 +13,8 @@ export class UserEditComponent implements OnInit {
   /* @Input to bind variable to the HTML */
   @Input()
   user: User;
-
   formUser: User;
-
+  password: string;
   message: string;
 
 
@@ -27,15 +26,27 @@ export class UserEditComponent implements OnInit {
     this.formUser = Object.assign({}, this.user)
   }
 
+
+  // METHODS:
   onSubmit() {
-    this.dataService.updateUser(this.formUser).subscribe(
-      (user) => {
-        this.router.navigate(
-          ['admin', 'users'],
-          {queryParams: {action: 'view', id: user.id}}
-        );
-      }
-    );
-  }
+    if (this.formUser.id == null) {
+      this.dataService.addUser(this.formUser, this.password)
+        .subscribe((user) => {
+          this.router.navigate(
+            ['admin', 'users'],
+            {queryParams: {action: 'view', id: user.id}}
+          );
+        });
+    } else {
+
+      this.dataService.updateUser(this.formUser)
+        .subscribe((user) => {
+          this.router.navigate(
+            ['admin', 'users'],
+            {queryParams: {action: 'view', id: user.id}}
+          );
+        });
+    }
+  } // End onSubmit()
 
 }

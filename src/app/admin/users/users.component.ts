@@ -22,29 +22,33 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     /*this.users = this.dataService.getUsers(); // REPLACE with an Observer/subscriber */
     /** subscribe to the Observable. 'next' is the data returned by Observable( Observable<Array<User>> ) */
-    this.dataService.getUsers().subscribe(
-      (next) => {
-        this.users = next;
-      }
-    );
+    this.dataService.getUsers()
+      .subscribe(
+        (next) => {
+          this.users = next;
+        });
 
-    this.route.queryParams.subscribe(
-      (params) => {
+    this.route.queryParams
+      .subscribe(
+        (params) => {
+          const id = params['id'];  // assign local id value into queryParam 'id'
+          this.action = params['action']; // assign current action value into queryParam 'action'
 
-        const id = params['id'];  // assign the 'id' number from params into our local 'const id'
-        const action = params['action'];
+          if (id) {
+            this.selectedUser = this.users.find(user => user.id === +id);
+          }
+        });
 
-        if (id) {
-          this.selectedUser = this.users.find(user => user.id === +id);
-          this.action = action;
-        }
-
-      }
-    );
   } // End ngOnInit()
 
+
+  // METHODS:
   setUser(id: number) {
     this.router.navigate(['admin', 'users'], {queryParams: {id, action: 'view'}});
   }
 
+  addUser() {
+    this.selectedUser = new User();
+    this.router.navigate(['admin', 'users'], {queryParams: {action: 'add'}});
+  }
 }
