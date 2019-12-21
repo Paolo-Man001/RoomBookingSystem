@@ -17,7 +17,8 @@ export class RoomEditComponent implements OnInit {
   * */
   roomForm = new FormGroup(
     {
-      roomName: new FormControl('roomName')
+      roomName: new FormControl('roomName'),
+      location: new FormControl('location')
     }
   );
 
@@ -26,6 +27,26 @@ export class RoomEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    /*  patchValue() is a method that assigns the current room's
+    *   properties into the bound property-value.
+    * */
+    this.roomForm.patchValue({
+      roomName: this.room.name,
+      location: this.room.location
+    });
+  }
+
+
+  //Submit
+  onSubmit() {
+    // console.log(this.roomForm);
+
+    /*  Assign the NEW Input value into the current room being submitted
+    * */
+    this.room.name = this.roomForm.value['roomName'];
+    this.room.location = this.roomForm.controls['location'].value;
+    console.log(this.room);
+    // TODO: call a method in the data service to save the room
   }
 
 }

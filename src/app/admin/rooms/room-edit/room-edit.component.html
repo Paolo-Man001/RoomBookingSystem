@@ -3,13 +3,13 @@
 <form [formGroup]="roomForm">
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" placeholder="room name" formControlName="roomName">
+    <input type="text" class="form-control" id="name" placeholder="room name" required formControlName="roomName">
     <div class="alert alert-danger"></div>
 
   </div>
   <div class="form-group">
     <label for="location">Location</label>
-    <input type="text" class="form-control" id="location" placeholder="location">
+    <input type="text" class="form-control" id="location" placeholder="location" required formControlName="location">
     <div class="alert alert-danger"></div>
   </div>
 
@@ -17,5 +17,5 @@
 
   <!-- list the layout types here -->
 
-  <button type="submit" class="btn btn-primary">Save</button>
+  <button type="submit" class="btn btn-primary" (click)="onSubmit()">Save</button>
 </form>
