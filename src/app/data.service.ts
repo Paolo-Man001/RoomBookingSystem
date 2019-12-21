@@ -3,9 +3,7 @@ import {Layout, LayoutCapacity, Room} from "./model/Room";
 import {User} from './model/User';
 import {Observable, of} from "rxjs";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class DataService {
 
   //------ DUMMY Data ::
