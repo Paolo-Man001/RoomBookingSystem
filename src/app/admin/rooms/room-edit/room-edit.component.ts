@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Layout, LayoutCapacity, Room } from "../../../model/Room";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
    selector: 'app-room-edit',
@@ -35,11 +35,14 @@ export class RoomEditComponent implements OnInit {
    }
 
    ngOnInit() {
-      /* use FormBuilder:  (we don't need patchValue() when using formBuilder) */
+      /** use FormBuilder:  (we don't need patchValue() when using formBuilder)
+       *    Use Ng built-in 'Validators' object for the room-form fields.
+       *    Multi-validators for one field/property must be contained in [].
+       * */
       this.roomForm = this.formBuilder.group(
           {
-             roomName: this.room.name,
-             location: this.room.location
+             roomName: [ this.room.name, Validators.required ],
+             location: [ this.room.location, [ Validators.required, Validators.minLength(3) ] ]
           }
       );
 
@@ -66,7 +69,6 @@ export class RoomEditComponent implements OnInit {
 
    // Submit
    onSubmit() {
-      console.log(this.roomForm);
 
       /**  Assign the NEW Input value into the current room being submitted
        *    2 ways to get the value from the FormGroup.FormControl object
@@ -82,6 +84,7 @@ export class RoomEditComponent implements OnInit {
       }
 
       console.log(this.room);
+      console.log(this.roomForm);
 
       // TODO: call a method in the data service to save the room
    }
