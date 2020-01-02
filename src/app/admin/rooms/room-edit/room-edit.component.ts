@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Layout, LayoutCapacity, Room } from "../../../model/Room";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { DataService } from "../../../data.service";
+import { Router } from "@angular/router";
 
 @Component({
    selector: 'app-room-edit',
@@ -31,7 +33,9 @@ export class RoomEditComponent implements OnInit {
    roomForm: FormGroup;
 
 
-   constructor( private formBuilder: FormBuilder ) {
+   constructor( private formBuilder: FormBuilder,
+                private dataService: DataService,
+                private router: Router ) {
    }
 
    ngOnInit() {
@@ -54,8 +58,8 @@ export class RoomEditComponent implements OnInit {
          location: this.room.location
       });*/
 
-      /** Programmatically add FormControl for layout.
-       * Use of 'addControl()'
+      /** Programmatically add FormControl for layout,
+       * by the use of 'addControl()' .
        */
       for ( const layout of this.layouts ) {
          // this.roomForm.addControl(`layout${ layout }`, new FormControl(`layout${ layout }`));
@@ -83,10 +87,23 @@ export class RoomEditComponent implements OnInit {
          this.room.capacities.push(layoutCapacity);
       }
 
-      console.log(this.room);
-      console.log(this.roomForm);
+      // console.log(this.room);
+      // console.log(this.roomForm);
 
-      // TODO: call a method in the data service to save the room
+      //--- Call addRoom or updateRoom method from data service and save the room
+      if ( this.room.id == null ) {
+         this.dataService.addRoom(this.room).subscribe(
+             next => {
+                this.router.navigate([ 'admin', 'rooms' ], { queryParams: { action: 'view', id: next.id } });
+             }
+         );
+      } else {
+         this.dataService.updateRoom(this.room).subscribe(
+             next => {
+                this.router.navigate([ 'admin', 'rooms' ], { queryParams: { action: 'view', id: next.id } })
+             }
+         );
+      }
    }
 
 }

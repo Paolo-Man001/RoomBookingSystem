@@ -3,7 +3,7 @@ import { Layout, LayoutCapacity, Room } from "./model/Room";
 import { User } from './model/User';
 import { Observable, of } from "rxjs";
 
-@Injectable( { providedIn: 'root' } )
+@Injectable({ providedIn: 'root' })
 export class DataService {
 
    //------ DUMMY Data ::
@@ -12,19 +12,19 @@ export class DataService {
 
    getRooms(): Observable<Array<Room>> {
       // method 'of()' converts data to return an Observable that contains the data. Always use together with Observable data type.
-      return of( this.rooms );
+      return of(this.rooms);
    }
 
    getUsers(): Observable<Array<User>> {
       // method 'of()' converts data to return an Observable that contains the data. Always use together with Observable data type.
-      return of( this.users );
+      return of(this.users);
    }
 
    // Update a user
    updateUser( user: User ): Observable<User> {
-      const originalUser = this.users.find( u => u.id === user.id );
+      const originalUser = this.users.find(u => u.id === user.id);
       originalUser.name = user.name;
-      return of( originalUser );
+      return of(originalUser);
    }
 
    // Add User
@@ -37,11 +37,38 @@ export class DataService {
       }
 
       newUser.id = id + 1;
-      this.users.push( newUser );
+      this.users.push(newUser);
 
-      return of( newUser );
+      return of(newUser);
    }
 
+   // Update Room
+   updateRoom( room: Room ): Observable<Room> {
+      const originalRoom = this.rooms.find(r => r.id === room.id);   // find the room
+      originalRoom.name = room.name;
+      originalRoom.location = room.location;
+      originalRoom.capacities = room.capacities;
+
+      return of(originalRoom);
+   }
+
+   // Add Room
+   addRoom( newRoom: Room ): Observable<Room> {
+      let id = 0;
+      for ( const room of this.rooms ) {
+         if ( room.id > id ) {
+            id = room.id;
+         }
+      }
+
+      newRoom.id = id + 1;
+      this.rooms.push(newRoom);
+
+      return of(newRoom);
+   }
+
+
+   /*----------- CONSTRUCTOR -------------*/
    constructor() {
       /*----------- USER Array -------------*/
       this.users = new Array<User>();
@@ -58,9 +85,9 @@ export class DataService {
       user3.id = 3;
       user3.name = 'Nebula Blue';
 
-      this.users.push( user1 );
-      this.users.push( user2 );
-      this.users.push( user3 );
+      this.users.push(user1);
+      this.users.push(user2);
+      this.users.push(user3);
 
 
       /*----------- ROOM Array -------------*/
@@ -82,8 +109,8 @@ export class DataService {
       capacity2.layout = Layout.USHAPE;
       capacity2.capacity = 20;
 
-      room1.capacities.push( capacity1 );
-      room1.capacities.push( capacity2 );
+      room1.capacities.push(capacity1);
+      room1.capacities.push(capacity2);
 
       /** ROOM 2 */
       const room2 = new Room();
@@ -96,10 +123,10 @@ export class DataService {
       capacity3.layout = Layout.THEATER;
       capacity3.capacity = 60;
 
-      room2.capacities.push( capacity3 );
+      room2.capacities.push(capacity3);
 
       /** PUSH to rooms */
-      this.rooms.push( room1 );
-      this.rooms.push( room2 );
+      this.rooms.push(room1);
+      this.rooms.push(room2);
    }
 }
