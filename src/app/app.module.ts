@@ -38,8 +38,8 @@ const routes: Routes = [
    ],
    imports: [
       BrowserModule,
-      FormsModule,
-      ReactiveFormsModule,
+      FormsModule,   // for Template-driven Forms
+      ReactiveFormsModule,    // for Reactive-driven Forms
       RouterModule.forRoot(routes)    // NEED to declare for our routing
    ],
    providers: [],
