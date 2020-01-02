@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Layout, LayoutCapacity, Room } from "../../../model/Room";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 
 @Component({
    selector: 'app-room-edit',
@@ -20,30 +20,46 @@ export class RoomEditComponent implements OnInit {
     *
     *   ReactiveFormsModule must be registered in the app.component in order to use it.
     * */
-   roomForm = new FormGroup(
-       {
-          roomName: new FormControl('roomName'),
-          location: new FormControl('location')
-       }
-   );
+       // roomForm = new FormGroup(
+       //     {
+       //        roomName: new FormControl('roomName'),
+       //        location: new FormControl('location')
+       //     }
+       // );
+
+       // using form-builder:
+   roomForm: FormGroup;
 
 
-   constructor() {
+   constructor( private formBuilder: FormBuilder ) {
    }
 
    ngOnInit() {
+      /* use FormBuilder:  (we don't need patchValue() when using formBuilder) */
+      this.roomForm = this.formBuilder.group(
+          {
+             roomName: this.room.name,
+             location: this.room.location
+          }
+      );
+
       /**  patchValue() is a method that assigns the current room's
-       *   properties into the bound property-value.
+       *  properties into the bound property-value.
        * */
-      this.roomForm.patchValue({
+      /*this.roomForm.patchValue({
          roomName: this.room.name,
          location: this.room.location
-      });
+      });*/
 
-      // Programmatically add FormControl for layout.
-      // Use of 'addControl()'
+      /** Programmatically add FormControl for layout.
+       * Use of 'addControl()'
+       */
       for ( const layout of this.layouts ) {
-         this.roomForm.addControl(`layout${ layout }`, new FormControl(`layout${layout}`));
+         // this.roomForm.addControl(`layout${ layout }`, new FormControl(`layout${ layout }`));
+
+         const layoutCapacity = this.room.capacities.find(lc => lc.layout === Layout[layout]);
+         const initialCapacity = layoutCapacity == null ? 0 : layoutCapacity.capacity;    // ternary-check for capacity value null or not-null
+         this.roomForm.addControl(`layout${ layout }`, this.formBuilder.control(initialCapacity));
       }
    }
 
