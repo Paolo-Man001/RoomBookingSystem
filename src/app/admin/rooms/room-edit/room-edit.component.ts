@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Room } from "../../../model/Room";
+import { Layout, LayoutCapacity, Room } from "../../../model/Room";
 import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
@@ -10,6 +10,9 @@ import { FormControl, FormGroup } from "@angular/forms";
 export class RoomEditComponent implements OnInit {
 
    @Input() room: Room;
+
+   layouts = Object.keys(Layout);
+   layoutEnum = Layout;
 
    /** Reactive forms must have formGroup and formControl properties to bind to the HTML Elements.
     *   Set <form [formGroup]="roomForm"> for the parent tag. This will bind the parent-element.
@@ -36,6 +39,12 @@ export class RoomEditComponent implements OnInit {
          roomName: this.room.name,
          location: this.room.location
       });
+
+      // Programmatically add FormControl for layout.
+      // Use of 'addControl()'
+      for ( const layout of this.layouts ) {
+         this.roomForm.addControl(`layout${ layout }`, new FormControl(`layout${layout}`));
+      }
    }
 
 
@@ -48,6 +57,14 @@ export class RoomEditComponent implements OnInit {
        * */
       this.room.name = this.roomForm.value['roomName'];
       this.room.location = this.roomForm.controls['location'].value;
+      this.room.capacities = new Array<LayoutCapacity>();
+      for ( const layout of this.layouts ) {
+         const layoutCapacity = new LayoutCapacity();
+         layoutCapacity.layout = Layout[layout];
+         layoutCapacity.capacity = this.roomForm.controls[`layout${ layout }`].value;
+         this.room.capacities.push(layoutCapacity);
+      }
+
       console.log(this.room);
 
       // TODO: call a method in the data service to save the room
